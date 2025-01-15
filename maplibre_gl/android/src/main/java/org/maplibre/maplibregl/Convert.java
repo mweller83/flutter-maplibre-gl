@@ -7,6 +7,8 @@ package org.maplibre.maplibregl;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import org.maplibre.android.location.engine.LocationEngineRequest;
 import org.maplibre.geojson.Polygon;
 import org.maplibre.android.camera.CameraPosition;
 import org.maplibre.android.camera.CameraUpdate;
@@ -131,6 +133,17 @@ class Convert {
     LatLngBounds.Builder builder = new LatLngBounds.Builder();
     builder.includes(bounds);
     return builder.build();
+  }
+
+  static LocationEngineRequest toLocationEngineRequest(Object o) {
+    if (o == null) {
+      return null;
+    }
+    List<?> data = toList(o);
+    return new LocationEngineRequest.Builder(toInt(data.get(0)))
+            .setPriority(toInt(data.get(1)))
+            .setDisplacement(toInt(data.get(2)))
+            .build();
   }
 
   static List<LatLng> toLatLngList(Object o, boolean flippedOrder) {
